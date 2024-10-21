@@ -1,43 +1,39 @@
 CREATE TABLE Autores (
-    autor_id INT PRIMARY KEY AUTO_INCREMENT,
+    autor_id SERIAL PRIMARY KEY,
     nome VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE Livros (
-    livro_id INT PRIMARY KEY AUTO_INCREMENT,
+    livro_id SERIAL PRIMARY KEY,
     titulo VARCHAR(255) NOT NULL,
-    autor_id INT,
-    FOREIGN KEY (autor_id) REFERENCES Autores(autor_id)
+    autor_id INT REFERENCES Autores(autor_id)
 );
 
 CREATE TABLE Exemplares (
-    exemplar_id INT PRIMARY KEY AUTO_INCREMENT,
-    livro_id INT,
-    FOREIGN KEY (livro_id) REFERENCES Livros(livro_id)
+    exemplar_id SERIAL PRIMARY KEY,
+    livro_id INT REFERENCES Livros(livro_id)
 );
 
 CREATE TABLE Membros (
-    membro_id INT PRIMARY KEY AUTO_INCREMENT,
+    membro_id SERIAL PRIMARY KEY,
     nome VARCHAR(255) NOT NULL,
     data_nascimento DATE NOT NULL
 );
 
 CREATE TABLE Emprestimos (
-    emprestimo_id INT PRIMARY KEY AUTO_INCREMENT,
-    membro_id INT,
-    exemplar_id INT,
+    emprestimo_id SERIAL PRIMARY KEY,
+    membro_id INT REFERENCES Membros(membro_id),
+    exemplar_id INT REFERENCES Exemplares(exemplar_id),
     data_emprestimo DATE NOT NULL,
     data_devolucao DATE,
-    multa DECIMAL(10, 2),
-    FOREIGN KEY (membro_id) REFERENCES Membros(membro_id),
-    FOREIGN KEY (exemplar_id) REFERENCES Exemplares(exemplar_id)
+    multa NUMERIC(10, 2)
 );
 
 INSERT INTO Autores (nome) VALUES ('J.K. Rowling');
 INSERT INTO Autores (nome) VALUES ('George Orwell');
 INSERT INTO Autores (nome) VALUES ('Isaac Asimov');
 
-INSERT INTO Livros (titulo, autor_id) VALUES ('Harry Potter and the Philosopher\'s Stone', 1);
+INSERT INTO Livros (titulo, autor_id) VALUES ('Harry Potter and the Philosopher''s Stone', 1);
 INSERT INTO Livros (titulo, autor_id) VALUES ('1984', 2);
 INSERT INTO Livros (titulo, autor_id) VALUES ('Foundation', 3);
 
